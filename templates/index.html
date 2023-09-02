@@ -1,0 +1,45 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <div class="container bg-image" 
+     style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');
+            height: 50 vh">
+        <h1>Interest Calculator</h1>
+        <form action="/calculate" onsubmit="showInputValues()" method="POST">
+            <label for="principal">Principal Amount:<span id="outputprincipal"></label>
+            <input type="number" name="principal" placeholder="Principal Amount"required><br>
+            
+            <label for="rate">Interest Rate:<span id="outputrate"></label>
+            <input type="number" name="rate" step="0.01" placeholder="Rate of Interest"required><br>
+            
+             <label for="from_date">From Date:</label>
+             <input type="date" name="from_date" required><br>
+             
+             
+             <label for="to_date">To Date:</label>
+             <input  type="date" name="to_date" required><br>
+             
+             
+            
+            <button type="submit">Calculate Interest</button>
+        </form>
+        
+        {% if error_message %}
+        <p class="error">{{ error_message }}</p>
+       {% elif interest is defined %}
+       <div class="result">
+            <p>Principal Amount: {{ Principal_Amount }}</p>
+            <p>Rate of Interest: {{Rate_interest}}</p>
+            <p>Calculated Interest: {{ interest }}</p>
+            <p>Time Difference (days): {{ time_difference }}</p>
+            <p>Total amount:{{total_amount}}
+            <p><a href="/">Calculate Another Interest</a></p>
+       </div>
+     {% endif %}
+  </div>
+</body>
+</html>
