@@ -1,0 +1,23 @@
+FROM gcr.io/google_appengine/python
+
+RUN apt-get update && apt-get install -y ffmpeg
+
+# Create a virtualenv for dependencies. This isolates these packages from
+# system-level packages.
+
+RUN virtualenv /env -p python3.7
+
+# Setting these environment variables are the same as running
+# source /env/bin/activate.
+
+ENV VIRTUAL_ENV /env
+ENV PATH /env/bin:$PATH
+
+ADD requirements.txt /app/requirements.txt
+RUN pip install -r /app/requirements.txt
+
+# Add the application source code.
+
+ADD . /app
+
+CMD gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
